@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use http\Client\Curl\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -17,5 +18,15 @@ class UserController extends Controller
             'password' => 'required|min:5|max:20|confirmed',
         ]);
        $validatedData['password']=Hash::make($validatedData['password']);
+
+        $validatedData = User::create([
+            'email' => $validatedData->email,
+            'password' => $validatedData['password'],
+        ]);
+
+        return redirect('/login');
     }
+
+
+
 }
